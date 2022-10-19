@@ -1,0 +1,39 @@
+# What is Observer pattern?
+The Observer pattern offers a subscription model in which objects subscribe to an event and get notified when the event occurs. This pattern is the cornerstone of event driven programming, including JavaScript. The Observer pattern facilitates good object-oriented design and promotes loose coupling.
+
+# Using Observer pattern
+When building web apps you end up writing many event handlers. Event handlers are functions that will be notified when a certain event fires. These notifications optionally receive an event argument with details about the event (for example the x and y position of the mouse at a click event).
+
+The event and event-handler paradigm in JavaScript is the manifestation of the Observer design pattern. Another name for the Observer pattern is Pub/Sub, short for Publication/Subscription.
+
+In JavaScript the Strategy pattern is widely used as a plug-in mechanism when building extensible frameworks. This can be a very effective approach. To learn more check our [Dofactory JS](https://www.dofactory.com/javascript/design-patterns/strategy).
+
+# How to Implement?
+1. Look over your business logic and try to break it down into two parts: the core functionality, independent from other code, will act as the publisher; the rest will turn into a set of subscriber classes.
+
+2. Declare the subscriber interface. At a bare minimum, it should declare a single update method.
+
+3. Declare the publisher interface and describe a pair of methods for adding a subscriber object to and removing it from the list. Remember that publishers must work with subscribers only via the subscriber interface.
+
+4. Decide where to put the actual subscription list and the implementation of subscription methods. Usually, this code looks the same for all types of publishers, so the obvious place to put it is in an abstract class derived directly from the publisher interface. Concrete publishers extend that class, inheriting the subscription behavior.
+
+However, if you’re applying the pattern to an existing class hierarchy, consider an approach based on composition: put the subscription logic into a separate object, and make all real publishers use it.
+
+5. Create concrete publisher classes. Each time something important happens inside a publisher, it must notify all its subscribers.
+
+6. Implement the update notification methods in concrete subscriber classes. Most subscribers would need some context data about the event. It can be passed as an argument of the notification method.
+
+But there’s another option. Upon receiving a notification, the subscriber can fetch any data directly from the notification. In this case, the publisher must pass itself via the update method. The less flexible option is to link a publisher to the subscriber permanently via the constructor.
+
+7. The client must create all necessary subscribers and register them with proper publishers.
+# Diagram
+
+[![Observer diagram](https://www.dofactory.com/img/diagrams/javascript/javascript-observer.jpg)](https://www.dofactory.com/javascript/design-patterns/observer)
+
+# Pros and Cons
+### Pros
+* Open/Closed Principle. You can introduce new subscriber classes without having to change the publisher’s code (and vice versa if there’s a publisher interface).
+* You can establish relations between objects at runtime.
+### Cons
+*  Subscribers are notified in random order.
+# example

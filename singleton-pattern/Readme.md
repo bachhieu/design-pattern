@@ -24,20 +24,12 @@ Several other patterns, such as, Factory, Prototype, and Façade are frequently 
 
 [![Singleton pattern](https://www.dofactory.com/img/diagrams/javascript/javascript-singleton.jpg)](https://www.dofactory.com/javascript/design-patterns/singleton)
 
-# Participants
-
-The objects participating in this pattern are:
-
-* Singleton -- In example code: Singleton
-    * defines getInstance() which returns the unique instance.
-    * responsible for creating and managing the instance object.  
-
 # Pros and Cons
-## pros
+### pros
 * You can be sure that a class has only a single instance.
 * You gain a global access point to that instance.
 * The singleton object is initialized only when it’s requested for the first time.
-## Cons
+### Cons
 * Violates the Single Responsibility Principle. The pattern solves two problems at the time.
 * The Singleton pattern can mask bad design, for instance, when the components of the program know too much about each other.
 * The pattern requires special treatment in a multithreaded environment so that multiple threads won’t create a singleton object several times.

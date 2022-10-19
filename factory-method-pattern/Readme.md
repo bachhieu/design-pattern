@@ -29,25 +29,13 @@ For instance, imagine that you have the following hierarchy of classes: the base
 
 [![factory diagram](https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.dofactory.com%2Fjavascript%2Fdesign-patterns%2Ffactory-method&psig=AOvVaw31k2pv7PVByljbBPdv0RGU&ust=1666066186490000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCNCqqKuy5voCFQAAAAAdAAAAABAR)](https://www.dofactory.com/javascript/design-patterns/factory-method)
 
-# Participants
-The objects participating in this pattern are:
-
-* Creator -- In example code: Factory
-    * the 'factory' object that creates new products
-    * implements 'factoryMethod' which returns newly created products
-* AbstractProduct -- not used in JavaScript
-    * declares an interface for products
-* ConcreteProduct -- In example code: Employees
-    * the product being created
-    * all products support the same interface (properties and methods)
-
 # Pros and Cons
 
-## Pros 
+### Pros 
  * You avoid tight coupling between the creator and the concrete products.
  * Single Responsibility Principle. You can move the product creation code into one place in the program, making the code easier to support.
  * Open/Closed Principle. You can introduce new types of products into the program without breaking existing client code.
-## Cons
+### Cons
  * The code may become more complicated since you need to introduce a lot of new subclasses to implement the pattern. The best case scenario is when you’re introducing the pattern into an existing hierarchy of creator classes.
 # example
 file: indes.ts

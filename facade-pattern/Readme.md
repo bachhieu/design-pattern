@@ -23,20 +23,10 @@ Façades are frequently combined with other design patterns. Façades themselves
 
 [![Facade diagram](https://www.dofactory.com/img/diagrams/javascript/javascript-facade.jpg)](https://www.dofactory.com/javascript/design-patterns/facade)
 
-# Participants
-The objects participating in this pattern are:
-
-* Façade -- In example code: Mortgage
-    * knows which subsystems are responsible for a request
-    * delegates client requests to appropriate subsystem objects
-* Sub Systems -- In example code: Bank, Credit, Background
-    * implements and performs specialized subsystem functionality
-    * have no knowledge of or reference to the façade
-
 # Pros and Cons
-## Pros
+### Pros
 *  You can isolate your code from the complexity of a subsystem.
-## Cons
+### Cons
 *  A facade can become a god object coupled to all classes of an app.
 # example
 file: indes.ts
