@@ -1,79 +1,68 @@
 /**
- * The Creator class declares the factory method that is supposed to return an
- * object of a Product class. The Creator's subclasses usually provide the
- * implementation of this method.
+ * Khai báo lớp Creator để trả về 1 đối tượng của 1 lớp Product. Bên cạnh đó là khai báo abstract để các lớp kế thừa có thể * dễ dàng ghi đè lên phương thức gốc, với ý nghĩa cụ thể hơn
  */
  abstract class Creator {
     /**
-     * Note that the Creator may also provide some default implementation of the
-     * factory method.
+     * Khai báo 1 phương thức gốc để những lớp thừa kế có thể ghi đè
      */
-    public abstract factoryMethod(): Product_01;
+    public abstract factoryMethod(): Product;
 
     /**
-     * Also note that, despite its name, the Creator's primary responsibility is
-     * not creating products. Usually, it contains some core business logic that
-     * relies on Product objects, returned by the factory method. Subclasses can
-     * indirectly change that business logic by overriding the factory method
-     * and returning a different type of product from it.
+     * Dù không trực tiếp trả về 1 đối tượng lớp Product nào cụ thể, nhưng nó chứa những phương thức thức cơ bản để những lớp kết thừa có thể triển khai và dễ dàng sử dụng
      */
     public someOperation(): string {
-        // Call the factory method to create a Product object.
+        // Gọi phương thúc để tạo 1 đối tượng Product cụ thể
         const product = this.factoryMethod();
-        // Now, use the product.
-        return `Creator: The same creator's code has just worked with ${product.operation()}`;
+        return `Creator: The same creators code has just worked with ${product.operation()}`;
     }
 }
 
 /**
- * Concrete Creators override the factory method in order to change the
- * resulting product's type.
+ * Khai báo những lớp ConcreteCreator1 kế thừa từ lớp Creator và ghi đè lên những phương thức gốc để có những phương thức của riêng nó
  */
 class ConcreteCreator1 extends Creator {
     /**
-     * Note that the signature of the method still uses the abstract product
-     * type, even though the concrete product is actually returned from the
-     * method. This way the Creator can stay independent of concrete product
-     * classes.
+     * Ghi đè lên phương thức gốc của lớp Creator và trả về 1 đối tượng Product cụ thể
      */
-    public factoryMethod(): Product_01 {
+    public factoryMethod(): Product {
         return new ConcreteProduct1();
     }
 }
-
+  /**
+     * Tương tự class ConcreteCreator1
+     */
 class ConcreteCreator2 extends Creator {
-    public factoryMethod(): Product_01 {
+    public factoryMethod(): Product {
         return new ConcreteProduct2();
     }
 }
 
 /**
- * The Product interface declares the operations that all concrete products must
- * implement.
+ * Khai báo những phương thức mà 1 product cần có và cần phải thực hiện
  */
-interface Product_01 {
+interface Product {
     operation(): string;
 }
 
 /**
- * Concrete Products provide various implementations of the Product interface.
+ * Triển khai những lớp Product cụ thể dựa trên lớp Product 
  */
-class ConcreteProduct1 implements Product_01 {
+class ConcreteProduct1 implements Product {
     public operation(): string {
         return '{Result of the ConcreteProduct1}';
     }
 }
-
-class ConcreteProduct2 implements Product_01 {
+/**
+ * Tương tự ConcreteProduct1
+ */
+class ConcreteProduct2 implements Product {
     public operation(): string {
         return '{Result of the ConcreteProduct2}';
     }
 }
 
 /**
- * The client code works with an instance of a concrete creator, albeit through
- * its base interface. As long as the client keeps working with the creator via
- * the base interface, you can pass it any creator's subclass.
+ * Đoạn mã triển khai việc tạo các Product cụ thể. Có nhiều các thức khác nhau để triển khai việc tạo 1 đối tượng Product cụ thể, nhưng với ví dụ này bạn có thể tạo khi chuyền 1 đối tượng ConcreteCreator cụ thể vào hàm clientCode
  */
 function clientCode(creator: Creator) {
     // ...
@@ -83,11 +72,11 @@ function clientCode(creator: Creator) {
 }
 
 /**
- * The Application picks a creator's type depending on the configuration or
- * environment.
+ * Đối tượng Product cụ thể sẽ được tạo dựa trên đối tượng được chuyền vào
  */
 console.log('App: Launched with the ConcreteCreator1.');
 clientCode(new ConcreteCreator1());
+console.log('');
 
 console.log('App: Launched with the ConcreteCreator2.');
 clientCode(new ConcreteCreator2());

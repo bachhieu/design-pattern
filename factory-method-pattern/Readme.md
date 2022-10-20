@@ -37,5 +37,6 @@ For instance, imagine that you have the following hierarchy of classes: the base
  * Open/Closed Principle. You can introduce new types of products into the program without breaking existing client code.
 ### Cons
  * The code may become more complicated since you need to introduce a lot of new subclasses to implement the pattern. The best case scenario is when you’re introducing the pattern into an existing hierarchy of creator classes.
-# example
-file: indes.ts
+
+# Note
+Nếu muốn xem bản bằng tiếng việt thì bạn có thể đọc tại file [example.md](https://github.com/bachhieu/design-pattern/blob/main/factory-method-pattern/example.md)
