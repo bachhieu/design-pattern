@@ -10,14 +10,17 @@ Lúc này bạn cần kết hợp vẫn tải đường biển vào ứng dụng
 Thật may mắn cho điều này khi bạn sử dụng factory pattern để tạo ra các đối tượng khác nhau dựa trên những giá trị được truyền vào trong khi chỉ dùng 1 phương thức gốc
 
 [![solution](https://refactoring.guru/images/patterns/diagrams/factory-method/solution1.png)](https://refactoring.guru/design-patterns/factory-method)
+
 *Các lớp con có thể thay đổi các phương thức của riêng nó, nhưng nó vẫn sẽ có chung một giao diện tạo*
 
 Chúng ta có thể tạo 2 lớp RoadLogistics và SeaLogistics để trả về các đối tượng xe vận chuyển đường bộ và thuyền vẩn tải đường biển. 
 
 [![solution](https://refactoring.guru/images/patterns/diagrams/factory-method/solution3-en.png?id=b6f53911fc0d56f9ef99501fc4aec059)](https://refactoring.guru/design-patterns/factory-method)
+
  *Như vậy chỉ cần một phương thức chúng ta có thể tạo ra những đối tượng khác nhau cho từng mục đích*
  
  [![solution](https://refactoring.guru/images/patterns/diagrams/factory-method/solution2-en.png?id=db5de848c1d490b835666ef54d131d46)](https://refactoring.guru/design-patterns/factory-method)
+ 
 *Tất cả các sản phẩm phải theo cùng một giao diện.*
  
 # Kiến trúc
