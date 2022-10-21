@@ -1,0 +1,155 @@
+# Đặt vấn đề
+Đối với observer pattern có 1 ví dụ khá trực quan đó là mỗi năm iphone đều ra 1 phiên bản mới. Hầu hết mọi người đều mong muốn nhận được thông tin mới nhất về sản phẩm, nhưng nó không phải là tất cả. Apple có thể gửi tất cả email đến người dùng để họ nhận được thông tin, điều này có thể coi là thư rác nhưng ít nhất nó làm được nhiệm vụ là gửi thông tin sản phẩm tới mọi người.
+Bạn dễ dàng nhận thấy rằng việc gửi như vậy không hề tốt dối với những người không quan tâm đến sản phẩm, và hơn hết là nó sẽ tốn mất tài nguyên của hệ thống.
+Vì vậy để giải quyết vấn đề này chúng ta sẽ có những **subscribe/unsubscribe**, Apple chỉ đơn giản là gửi email đến nhưng ai **subscribe** sản phẩm của họ
+
+[![observer](https://refactoring.guru/images/patterns/diagrams/observer/solution1-en.png)](https://refactoring.guru/design-patterns/observer)
+*Cơ chế đăng ký cho phép các đối tượng riêng lẻ đăng ký nhận thông báo sự kiện.*
+
+Điều quan trọng là tất cả người đăng ký phải triển khai cùng một giao diện và nhà xuất bản chỉ giao tiếp với họ thông qua giao diện đó. Giao diện này nên khai báo phương thức thông báo cùng với một tập hợp các tham số mà nhà xuất bản có thể sử dụng để chuyển một số dữ liệu theo ngữ cảnh cùng với thông báo.
+
+[![observer](https://refactoring.guru/images/patterns/diagrams/observer/solution2-en.png)](https://refactoring.guru/design-patterns/observer)
+*thông báo cho người đăng ký bằng cách gọi phương thức thông báo cụ thể trên các đối tượng của họ.*
+
+# Mục đích
+**Observer** là một mẫu thiết kế hành vi cho phép bạn xác định cơ chế đăng ký để thông báo cho nhiều đối tượng về bất kỳ sự kiện nào xảy ra với đối tượng mà họ đang quan sát.
+
+# ví dụ
+Để làm rõ những điều trên chúng ta sẽ triển khai rõ ví dụ thực tế phía trên
+#### [example.ts](https://github.com/bachhieu/design-pattern/blob/main/observer-pattern/example.ts)
+```ts
+/**
+ * khai báo đại diện cho Cty apple
+ */
+namespace Apple {
+    // Khai báo biến đại diện cho những người subscribe apple
+    let observers: Client.Observer[] = [];
+    // Khai báo giao diện chung cho thông báo của apple
+    export interface Subject {
+
+        // Đăng ký 1 người thành người theo dõi 
+        subscribe(observer: Client.Observer): void;
+    
+       // Hủy đăng ký 1 người thành người theo dõi 
+        unsubscribe(observer: Client.Observer): void;
+    
+        // Thông báo đến với mọi người khi có thông tin mới
+        notify(): void;
+    }
+    // Nơi cập nhật người theo dõi,hủy theo dõi và thông báo khi có tin tức mới của Apple
+    export class AppleNews implements Subject {
+        public news:boolean
+        constructor(){
+            this.news = false
+        }
+        // Đăng ký 1 người thành người theo dõi
+        public subscribe(observer: Client.Observer) {
+            const isExist = observers.includes(observer);
+            if (isExist) {
+                return console.log(`subscribe: ${observer.name} has been subscribe already.`);
+            }
+
+        console.log(`subscribe: ${observer.name} has subscribe is  an observer.`);
+        observers.push(observer);
+        }
+         //Hủy đăng ký 1 người thành người theo dõi
+        public unsubscribe(observer: Client.Observer) {
+            const observerIndex = observers.indexOf(observer);
+            if (observerIndex === -1) {
+                return console.log('unsubscribe: Nonexistent observer.');
+            }
+            observers.splice(observerIndex, 1);
+            console.log(`unsubscribe: ${observer.name} has unsubscribed.`);
+        }
+        // Thông báo đến với mọi người khi có thông tin mới
+        public notify() {
+            console.log('notify: Notifying observers...\n');
+            for (const observer of observers) {
+                observer.update(this);
+            }
+        }
+        // Cập nhật tin tức mới 
+        public updateNews(): void {
+            console.log('updateNews: iPhone 15 coming soon');
+            this.news = true
+            this.notify();
+        }
+    }
+}
+/**
+ * khai báo đại diện cho người dùng
+ */
+namespace Client {
+    // Khai báo giao diện chung cho người dùng
+    export interface Observer {
+        name :string
+        // phản ứng của những người đăng ký theo dõi tin tức.
+        update(subject:Apple.Subject): void;
+    }
+     // Khai báo class ConcreteObserver để tạo người dùng cụ thể
+    export class ConcreteObserver implements Observer {
+        // Thông tin của người dùng
+        public name :string
+        // Hàm tạo người dùng
+        constructor(name:string) {
+            this.name = name
+        }
+
+        // phản ứng của những người người dùng khi đăng ký theo dõi tin tức của apple
+        public update(subject: Apple.Subject): void {
+            if (subject instanceof Apple.AppleNews && subject.news) {
+                console.log(`ConcreteObserver:${this.name} Reacted to the event.`);
+            }
+        }
+    }
+}
+
+//Tạo 1 thông báo
+const subject1 = new Apple.AppleNews();
+
+// Tạo người dùng jack
+const jack = new Client.ConcreteObserver('jack');
+// jack đăng ký theo dõi tin tức
+subject1.subscribe(jack)
+//tương tự với maria
+const maria = new Client.ConcreteObserver('maria');
+subject1.subscribe(maria);
+console.log('-----------------------------')
+// apple cập nhật tin tức mới và thông báo tới người theo dõi
+// cả jack và maria sẽ nhận được thông báo
+subject1.updateNews();
+console.log('-----------------------------')
+// maria hủy đăng ký nhận thông báo
+subject1.unsubscribe(maria);
+console.log('-----------------------------')
+// apple cập nhật tin tức mới và thông báo tới người theo dõi
+// nhưng maria giờ sẽ không nhận được thông báo nữa
+subject1.updateNews();
+console.log('-----------------------------')
+
+
+```
+#### run
+```
+npm install -g ts-node
+ts-node example.ts
+```
+#### Output
+```
+subscribe: jack has subscribe is  an observer.
+subscribe: maria has subscribe is  an observer.
+-----------------------------
+updateNews: iPhone 15 coming soon
+notify: Notifying observers...
+
+ConcreteObserver:jack Reacted to the event.    
+ConcreteObserver:maria Reacted to the event.   
+-----------------------------
+unsubscribe: maria has unsubscribed.
+-----------------------------
+updateNews: iPhone 15 coming soon
+notify: Notifying observers...
+
+ConcreteObserver:jack Reacted to the event.    
+-----------------------------
+```

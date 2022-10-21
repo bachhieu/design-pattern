@@ -34,7 +34,6 @@ function run() {
     };
 
     var click = new Click();
-    console.log("🚀 ~ file: example-js-01.js ~ line 37 ~ run ~ click", click)
 
     click.subscribe(clickHandler);
     click.fire('event #1');
