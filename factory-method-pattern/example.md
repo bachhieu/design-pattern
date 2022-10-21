@@ -54,7 +54,7 @@ abstract class Creator {
     public someOperation(): string {
         // Gọi phương thúc để tạo 1 đối tượng Product cụ thể
         const product = this.factoryMethod();
-        return `Creator: The same creators code has just worked with ${product.operation()}`;
+        return `Creator: The same creator's code has just worked with ${product.operation()}`;
     }
 }
 
